@@ -1,0 +1,79 @@
+<link rel="stylesheet" href="../../vendor/bootstrap/2.0.2/css/bootstrap.css" />
+<link rel="stylesheet" href="../../css/grid.css" />
+<link href="../../vendor/nvd3/nv.d3.css" rel="stylesheet">
+<link rel="stylesheet" href="../../css/graph.css">
+
+<style>
+
+    body {
+        overflow-y:scroll;
+    }
+
+    text {
+        font: 12px sans-serif;
+    }
+
+    svg {
+        display: block;
+    }
+
+    #chart1 svg {
+        height: 500px;
+        min-width: 100px;
+        min-height: 100px;
+        /*
+          margin: 50px;
+          Minimum height and width is a good idea to prevent negative SVG dimensions...
+          For example width should be =< margin.left + margin.right + 1,
+          of course 1 pixel for the entire chart would not be very useful, BUT should not have errors
+        */
+    }
+
+</style>
+<!-- 3rd party dependencies -->
+<script type="text/javascript" src="../../vendor/jquery/1.7.1/jquery.js"></script>
+<script type="text/javascript" src="../../vendor/underscore/1.1.6/underscore.js"></script>
+<script type="text/javascript" src="../../vendor/backbone/0.5.1/backbone.js"></script>
+<script type="text/javascript" src="../../vendor/mustache/0.5.0-dev/mustache.js"></script>
+<script type="text/javascript" src="../../vendor/bootstrap/2.0.2/bootstrap.js"></script>
+<script type="text/javascript" src="../../dist/recline.js"></script>
+
+<!-- javascript recline custom -->
+<script type="text/javascript" src="../../vendor/flotr2/flotr2.js"></script>
+<script type="text/javascript" src="../../src/view.nvd3.linegraph.js"></script>
+
+
+<!-- nvd3 -->
+<script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
+
+
+<script src="../../vendor/nvd3/nv.d3.js"></script>
+<script src="../../vendor/nvd3/tooltip.js"></script>
+<script src="../../vendor/nvd3/utils.js"></script>
+<script src="../../vendor/nvd3/models/legend.js"></script>
+<script src="../../vendor/nvd3/models/axis.js"></script>
+<script src="../../vendor/nvd3/models/scatter.js"></script>
+<script src="../../vendor/nvd3/models/line.js"></script>
+<script src="../../vendor/nvd3/models/lineChart.js"></script>
+
+
+
+<style type="text/css">
+.recline-slickgrid {
+  height: 550px;
+}
+
+.recline-timeline .vmm-timeline {
+  height: 550px;
+}
+</style>
+
+<body>
+
+<div class="data-explorer-here"></div>
+
+<div style="clear: both;"></div>
+
+<script type="text/javascript" src="app.js"></script>
+
+</body>

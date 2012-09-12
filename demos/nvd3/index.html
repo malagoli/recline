@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="../../vendor/bootstrap/2.0.2/css/bootstrap.css" />
+<link rel="stylesheet" href="../../css/grid.css" />
+<link href="../../vendor/nvd3/nv.d3.css" rel="stylesheet">
+<link rel="stylesheet" href="../../css/graph.css">
+
+<style>
+
+body {
+  overflow-y:scroll;
+}
+
+text {
+  font: 12px sans-serif;
+}
+
+svg {
+  display: block;
+}
+
+#chart1 svg {
+  height: 500px;
+  min-width: 100px;
+  min-height: 100px;
+/*
+  margin: 50px;
+  Minimum height and width is a good idea to prevent negative SVG dimensions...
+  For example width should be =< margin.left + margin.right + 1,
+  of course 1 pixel for the entire chart would not be very useful, BUT should not have errors
+*/
+}
+
+</style>
+<!-- 3rd party dependencies -->
+<script type="text/javascript" src="../../vendor/jquery/1.7.1/jquery.js"></script>
+<script type="text/javascript" src="../../vendor/underscore/1.1.6/underscore.js"></script>
+<script type="text/javascript" src="../../vendor/backbone/0.5.1/backbone.js"></script>
+<script type="text/javascript" src="../../vendor/mustache/0.5.0-dev/mustache.js"></script>
+<script type="text/javascript" src="../../vendor/bootstrap/2.0.2/bootstrap.js"></script>
+<script type="text/javascript" src="../../dist/recline.js"></script>
+
+<!-- javascript recline custom -->
+<script type="text/javascript" src="../../vendor/flotr2/flotr2.js"></script>
+<script type="text/javascript" src="../../src/view.nvd3.linegraph.js"></script>
+
+
+<!-- nvd3 -->
+<script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
+
+
+<script src="../../vendor/nvd3/nv.d3.js"></script>
+<script src="../../vendor/nvd3/tooltip.js"></script>
+<script src="../../vendor/nvd3/utils.js"></script>
+<script src="../../vendor/nvd3/models/legend.js"></script>
+<script src="../../vendor/nvd3/models/axis.js"></script>
+<script src="../../vendor/nvd3/models/scatter.js"></script>
+<script src="../../vendor/nvd3/models/line.js"></script>
+<script src="../../vendor/nvd3/models/lineChart.js"></script>
+
+<body>
+
+<div id="mygraph"></div>
+
+
+<script>
+
+var data = [
+  {id: 0, date: '2011-01-01', x: 1, y: 2, z: 3, country: 'DE', geo: {lat:52.56, lon:13.40} },
+  {id: 1, date: '2011-02-02', x: 2, y: 4, z: 24, country: 'UK', geo: {lat:54.97, lon:-1.60}},
+  {id: 2, date: '2011-03-03', x: 3, y: 6, z: 9, country: 'US', geo: {lat:40.00, lon:-75.5}},
+  {id: 3, date: '2011-04-04', x: 4, y: 8, z: 6, country: 'UK', geo: {lat:57.27, lon:-6.20}},
+  {id: 4, date: '2011-05-04', x: 5, y: 10, z: 15, country: 'UK', geo: {lat:51.58, lon:0}},
+  {id: 5, date: '2011-06-02', x: 6, y: 12, z: 18, country: 'DE', geo: {lat:51.04, lon:7.9}}
+];
+
+var dataset = new recline.Model.Dataset({
+  records: data
+});
+
+var $el = $('#mygraph');
+var graph = new recline.View.Graph({
+  model: dataset,
+  state: {
+    group: "x",
+    series: ["y", "z"],
+    colors: ["#cb4b4b", "#4da74d", "#9440ed"]
+  }
+});
+$el.append(graph.el);
+graph.render();
+graph.redraw();
+
+</script>
+
+</body>
+
