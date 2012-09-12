@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="../../vendor/bootstrap/2.0.2/css/bootstrap.css" />
 <link rel="stylesheet" href="../../css/grid.css" />
-<link href="../../vendor/nvd3/nv.d3.css" rel="stylesheet">
+<link href="../../vendor/nvd3/0.0.1/nv.d3.css" rel="stylesheet">
 <link rel="stylesheet" href="../../css/graph.css">
 
 <style>
@@ -41,25 +41,25 @@ svg {
 <!-- javascript recline custom -->
 <script type="text/javascript" src="../../vendor/flotr2/flotr2.js"></script>
 <script type="text/javascript" src="../../src/view.nvd3.linegraph.js"></script>
-
+<script type="text/javascript" src="../../src/view.nvd3.stackedarea.js"></script>
 
 <!-- nvd3 -->
 <script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
 
 
-<script src="../../vendor/nvd3/nv.d3.js"></script>
-<script src="../../vendor/nvd3/tooltip.js"></script>
-<script src="../../vendor/nvd3/utils.js"></script>
-<script src="../../vendor/nvd3/models/legend.js"></script>
-<script src="../../vendor/nvd3/models/axis.js"></script>
-<script src="../../vendor/nvd3/models/scatter.js"></script>
-<script src="../../vendor/nvd3/models/line.js"></script>
-<script src="../../vendor/nvd3/models/lineChart.js"></script>
+<script src="../../vendor/nvd3/0.0.1/nv.d3.js"></script>
+<script src="../../vendor/nvd3/0.0.1/tooltip.js"></script>
+<script src="../../vendor/nvd3/0.0.1/utils.js"></script>
+<script src="../../vendor/nvd3/0.0.1/models/legend.js"></script>
+<script src="../../vendor/nvd3/0.0.1/models/axis.js"></script>
+<script src="../../vendor/nvd3/0.0.1/models/scatter.js"></script>
+<script src="../../vendor/nvd3/0.0.1/models/line.js"></script>
+<script src="../../vendor/nvd3/0.0.1/models/lineChart.js"></script>
 
 <body>
 
 <div id="mygraph"></div>
-
+<div id="mygraph2"></div>
 
 <script>
 
@@ -76,6 +76,7 @@ var dataset = new recline.Model.Dataset({
   records: data
 });
 
+
 var $el = $('#mygraph');
 var graph = new recline.View.NVD3LineGraph({
   model: dataset,
@@ -88,6 +89,20 @@ var graph = new recline.View.NVD3LineGraph({
 $el.append(graph.el);
 graph.render();
 graph.redraw();
+
+
+var $el2 = $('#mygraph2');
+var graph2 = new recline.View.NVD3StackedArea({
+    model: dataset,
+    state: {
+        group: "x",
+        series: ["y", "z"],
+        colors: ["#cb4b4b", "#4da74d", "#9440ed"]
+    }
+});
+$el2.append(graph2.el);
+graph2.render();
+graph2.redraw();
 
 </script>
 
