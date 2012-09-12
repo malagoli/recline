@@ -96,6 +96,13 @@ var createExplorer = function(dataset, state) {
       view: new recline.View.Transform({
         model: dataset
       })
+    },
+    {
+          id: 'nvd3linegraph',
+          label: 'NVD3 LineGraph',
+          view: new recline.View.NVD3LineGraph({
+              model: dataset
+          }),
     }
   ];
 

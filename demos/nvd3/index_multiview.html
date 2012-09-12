@@ -1,35 +1,32 @@
-<link rel="stylesheet" href="../../vendor/bootstrap/2.0.2/css/bootstrap.css" />
-<link rel="stylesheet" href="../../css/grid.css" />
+
 <link href="../../vendor/nvd3/nv.d3.css" rel="stylesheet">
+
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+
+<link rel="stylesheet" href="../../vendor/bootstrap/2.0.2/css/bootstrap.css" />
+
+
+<link rel="stylesheet" href="../../vendor/leaflet/0.4.4/leaflet.css">
+<!--[if lte IE 8]>
+<link rel="stylesheet" href="../../vendor/leaflet/0.4.4/leaflet.ie.css" />
+<![endif]-->
+<link rel="stylesheet" href="../../vendor/slickgrid/2.0.1/slick.grid.css">
+<link rel="stylesheet" href="../../vendor/timeline/20120520/css/timeline.css">
+
+<!-- Recline CSS components -->
+<link rel="stylesheet" href="../../css/grid.css">
+<link rel="stylesheet" href="../../css/slickgrid.css">
 <link rel="stylesheet" href="../../css/graph.css">
+<link rel="stylesheet" href="../../css/transform.css">
+<link rel="stylesheet" href="../../css/map.css">
+<link rel="stylesheet" href="../../css/multiview.css">
 
-<style>
 
-    body {
-        overflow-y:scroll;
-    }
 
-    text {
-        font: 12px sans-serif;
-    }
-
-    svg {
-        display: block;
-    }
-
-    #chart1 svg {
-        height: 500px;
-        min-width: 100px;
-        min-height: 100px;
-        /*
-          margin: 50px;
-          Minimum height and width is a good idea to prevent negative SVG dimensions...
-          For example width should be =< margin.left + margin.right + 1,
-          of course 1 pixel for the entire chart would not be very useful, BUT should not have errors
-        */
-    }
-
-</style>
 <!-- 3rd party dependencies -->
 <script type="text/javascript" src="../../vendor/jquery/1.7.1/jquery.js"></script>
 <script type="text/javascript" src="../../vendor/underscore/1.1.6/underscore.js"></script>
@@ -38,15 +35,24 @@
 <script type="text/javascript" src="../../vendor/bootstrap/2.0.2/bootstrap.js"></script>
 <script type="text/javascript" src="../../dist/recline.js"></script>
 
-<!-- javascript recline custom -->
+
+
 <script type="text/javascript" src="../../vendor/flotr2/flotr2.js"></script>
+<script type="text/javascript" src="../../vendor/leaflet/0.4.4/leaflet.js"></script>
+<script type="text/javascript" src="../../vendor/slickgrid/2.0.1/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="../../vendor/slickgrid/2.0.1/jquery.event.drag-2.0.min.js"></script>
+<script type="text/javascript" src="../../vendor/slickgrid/2.0.1/slick.grid.min.js"></script>
+<script type="text/javascript" src="../../vendor/moment/1.6.2/moment.js"></script>
+<script type="text/javascript" src="../../vendor/timeline/20120520/js/timeline.js"></script>
+
+
+<!-- javascript recline custom -->
 <script type="text/javascript" src="../../src/view.nvd3.linegraph.js"></script>
+
 
 
 <!-- nvd3 -->
 <script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
-
-
 <script src="../../vendor/nvd3/nv.d3.js"></script>
 <script src="../../vendor/nvd3/tooltip.js"></script>
 <script src="../../vendor/nvd3/utils.js"></script>

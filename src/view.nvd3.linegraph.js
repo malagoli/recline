@@ -20,8 +20,14 @@ this.recline.View = this.recline.View || {};
 //
 // NB: should *not* provide an el argument to the view but must let the view
 // generate the element itself (you can then append view.el to the DOM.
-my.Graph = Backbone.View.extend({
-  template: ' <style>#chart svg {  height: 400px;}</style><div id="nvd3chart"><svg></svg></div> ',
+my.NVD3LineGraph = Backbone.View.extend({
+  template: '<div class="recline-graph"> \
+      <div class="panel nvd3linegraph" style="display: block;"> \
+        <div id="nvd3chart"><svg></svg></div>\
+      </div> \
+    </div> ',
+
+
 
   initialize: function(options) {
     var self = this;
@@ -58,7 +64,7 @@ my.Graph = Backbone.View.extend({
     var tmplData = this.model.toTemplateJSON();
     var htmls = Mustache.render(this.template, tmplData);
     $(this.el).html(htmls);
-    this.$graph = this.el.find('.panel.graph');
+    this.$graph = this.el.find('.panel.nvd3linegraph');
     return this;
   },
 
@@ -99,7 +105,7 @@ my.Graph = Backbone.View.extend({
       		.call(chart);
         nv.utils.windowResize(chart.update);
 
-  return chart;
+  return  chart;
 });
 
 
@@ -149,18 +155,7 @@ my.GraphControls = Backbone.View.extend({
   template: ' \
   <div class="editor"> \
     <form class="form-stacked"> \
-      <div class="clearfix"> \
-        <label>Graph Type</label> \
-        <div class="input editor-type"> \
-          <select> \
-          <option value="lines-and-points">Lines and Points</option> \
-          <option value="lines">Lines</option> \
-          <option value="points">Points</option> \
-          <option value="bars">Bars</option> \
-          <option value="columns">Columns</option> \
-          </select> \
-        </div> \
-        <label>Group Column (x-axis)</label> \
+      <label>Group Column (x-axis)</label> \
         <div class="input editor-group"> \
           <select> \
           <option value="">Please choose ...</option> \
