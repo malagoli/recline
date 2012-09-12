@@ -74,21 +74,21 @@ var createExplorer = function(dataset, state) {
       label: 'Grid',
       view: new recline.View.SlickGrid({
         model: dataset
-      }),
+      })
     },
     {
       id: 'graph',
       label: 'Graph',
       view: new recline.View.Graph({
         model: dataset
-      }),
+      })
     },
     {
       id: 'map',
       label: 'Map',
       view: new recline.View.Map({
         model: dataset
-      }),
+      })
     },
     {
       id: 'transform',
@@ -98,12 +98,20 @@ var createExplorer = function(dataset, state) {
       })
     },
     {
-          id: 'nvd3linegraph',
-          label: 'NVD3 LineGraph',
-          view: new recline.View.NVD3LineGraph({
+      id: 'nvd3linegraph',
+      label: 'NVD3 LineGraph',
+      view: new recline.View.NVD3LineGraph({
+      model: dataset
+          })
+    },
+      {
+          id: 'nvd3stackedarea',
+          label: 'NVD3 StackedArea',
+          view: new recline.View.NVD3StackedArea({
               model: dataset
-          }),
-    }
+          })
+      }
+
   ];
 
   window.dataExplorer = new recline.View.MultiView({
