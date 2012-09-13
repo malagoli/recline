@@ -114,6 +114,9 @@ my.Grid = Backbone.View.extend({
         field.set({width: width});
       }
     });
+
+
+
     var htmls = Mustache.render(this.template, this.toTemplateJSON());
     this.el.html(htmls);
     this.model.records.forEach(function(doc) {

@@ -12,6 +12,8 @@ my.Dataset = Backbone.Model.extend({
 
   // ### initialize
   initialize: function() {
+
+
     _.bindAll(this, 'query');
     this.backend = null;
     if (this.get('backend')) {

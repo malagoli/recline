@@ -20,14 +20,13 @@ this.recline.View = this.recline.View || {};
 //
 // NB: should *not* provide an el argument to the view but must let the view
 // generate the element itself (you can then append view.el to the DOM.
-my.NVD3LineGraph = Backbone.View.extend({
+    my.NVD3Graph = Backbone.View.extend({
+
   template: '<div class="recline-graph"> \
-      <div class="panel nvd3linegraph" style="display: block;"> \
-        <div id="nvd3chart"><svg></svg></div>\
+      <div class="panel nvd3graph_{{viewId}}"style="display: block;"> \
+        <div id="nvd3chart_{{viewId}}"><svg></svg></div>\
       </div> \
     </div> ',
-
-
 
   initialize: function(options) {
     var self = this;
@@ -43,11 +42,15 @@ my.NVD3LineGraph = Backbone.View.extend({
     var stateData = _.extend({
         group: null,
         series: [],
-        colors: ["#edc240", "#afd8f8", "#cb4b4b", "#4da74d", "#9440ed"]
+        colors: ["#edc240", "#afd8f8", "#cb4b4b", "#4da74d", "#9440ed"],
+        graphType: "lineChart",
+        id: 0
       },
       options.state
     );
     this.state = new recline.Model.ObjectState(stateData);
+
+
     this.editor = new my.GraphControls({
       model: this.model,
       state: this.state.toJSON()
@@ -59,12 +62,20 @@ my.NVD3LineGraph = Backbone.View.extend({
     this.elSidebar = this.editor.el;
   },
 
-  render: function() {
+
+
+
+    render: function() {
     var self = this;
+
     var tmplData = this.model.toTemplateJSON();
+    tmplData["viewId"] = this.state.get("id");
+
+
+
     var htmls = Mustache.render(this.template, tmplData);
     $(this.el).html(htmls);
-    this.$graph = this.el.find('.panel.nvd3linegraph');
+    this.$graph = this.el.find('.panel.nvd3graph_' + tmplData["viewId"]);
     return this;
   },
 
@@ -87,11 +98,35 @@ my.NVD3LineGraph = Backbone.View.extend({
       this.$graph.width(this.el.width() - 20);
 
       // nvd3
-      var seriesNVD3 = this.createSeriesNVD3();
+        var seriesNVD3 = this.createSeriesNVD3();
+        var graphType = this.state.get("graphType") ;
+        var viewId = this.state.get("id");
 
         nv.addGraph(function() {
-  
-  		var chart = nv.models.lineChart();
+
+
+
+
+            switch(graphType) {
+                case 'lineChart':
+                    var chart = nv.models.lineChart();
+                    break;
+                case "stackedAreaChart":
+                    var chart = nv.models.stackedAreaChart()
+                        .clipEdge(true);
+                    break;
+                case "discreteBarChart":
+                    var chart = nv.models.discreteBarChart()
+                   .staggerLabels(true)
+                   .tooltips(false)
+                    .showValues(true) ;
+                    break;
+                case "multiBarChart":
+                    var chart = nv.models.multiBarChart();
+                    break;
+       }
+
+
 
         if(seriesNVD3.xAxisIsDate) {
 
@@ -108,7 +143,7 @@ my.NVD3LineGraph = Backbone.View.extend({
   		chart.yAxis
       		.tickFormat(d3.format(',.2f'));
 
-  		d3.select('#nvd3chart svg')
+  		d3.select('#nvd3chart_' +viewId + '  svg')
       		.datum(seriesNVD3)
     		.transition().duration(500)
       		.call(chart);
@@ -225,11 +260,19 @@ my.GraphControls = Backbone.View.extend({
     this.render();
   },
 
+
+
   render: function() {
     var self = this;
     var tmplData = this.model.toTemplateJSON();
+
+    tmplData["viewId"]  =  this.state.get("id");;
+    console.log(tmplData);
+
+
     var htmls = Mustache.render(this.template, tmplData);
     this.el.html(htmls);
+
 
     // set up editor from state
     if (this.state.get('graphType')) {

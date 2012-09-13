@@ -40,7 +40,7 @@ jQuery(function($) {
       // Plus take opportunity to set date to be a date field and set some labels
       fields: [
         {id: 'id'},
-        {id: 'date', type: 'date'},
+            {id: 'date', type: 'date'},
         {id: 'x'},
         {id: 'y'},
         {id: 'z'},

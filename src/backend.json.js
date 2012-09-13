@@ -1,11 +1,11 @@
 this.recline = this.recline || {};
 this.recline.Backend = this.recline.Backend || {};
-this.recline.Backend.Jsonp = this.recline.Backend.Jsonp || {};
+this.recline.Backend.Json = this.recline.Backend.Json || {};
 
 (function($, my) {
-  my.__type__ = 'Jsonp';
+  my.__type__ = 'Json';
   // Timeout for request (after this time if no response we error)
-  // Needed because use JSONP so do not receive e.g. 500 errors 
+  // Needed because use JSON so do not receive e.g. 500 errors
   my.timeout = 5000;
 
   // ## load
@@ -17,14 +17,13 @@ this.recline.Backend.Jsonp = this.recline.Backend.Jsonp || {};
 
     var jqxhr = $.ajax({
       url: dataset.url,
-      dataType: 'jsonp',
+      dataType: 'json'
     });
     var dfd = $.Deferred();
     _wrapInTimeout(jqxhr).done(function(results) {
       if (results.error) {
         dfd.reject(results.error);
       }
-      console.log(results.results);
 
       dfd.resolve({
         records: results.data,
@@ -40,8 +39,8 @@ this.recline.Backend.Jsonp = this.recline.Backend.Jsonp || {};
 
   // ## _wrapInTimeout
   // 
-  // Convenience method providing a crude way to catch backend errors on JSONP calls.
-  // Many of backends use JSONP and so will not get error messages and this is
+  // Convenience method providing a crude way to catch backend errors on JSON calls.
+  // Many of backends use JSON and so will not get error messages and this is
   // a crude way to catch those errors.
   var _wrapInTimeout = function(ourFunction) {
     var dfd = $.Deferred();
@@ -62,4 +61,4 @@ this.recline.Backend.Jsonp = this.recline.Backend.Jsonp || {};
     return dfd.promise();
   }
 
-}(jQuery, this.recline.Backend.Jsonp));
+}(jQuery, this.recline.Backend.Json));

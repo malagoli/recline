@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="../../vendor/bootstrap/2.0.2/css/bootstrap.css" />
+<link rel="stylesheet" href="../../vendor/bootstrap/2.1.1/css/bootstrap.css" />
+<link rel="stylesheet" href="../../vendor/bootstrap/2.1.1/css/bootstrap-responsive.css" />
 <link rel="stylesheet" href="../../css/grid.css" />
 <link href="../../vendor/nvd3/0.0.1/nv.d3.css" rel="stylesheet">
 <link rel="stylesheet" href="../../css/graph.css">
@@ -17,16 +18,25 @@ svg {
   display: block;
 }
 
-#chart1 svg {
-  height: 500px;
+#nvd3chart_1 svg {
+  height: 450px;
   min-width: 100px;
   min-height: 100px;
-/*
-  margin: 50px;
-  Minimum height and width is a good idea to prevent negative SVG dimensions...
-  For example width should be =< margin.left + margin.right + 1,
-  of course 1 pixel for the entire chart would not be very useful, BUT should not have errors
-*/
+}
+#nvd3chart_2 svg {
+    height: 450px;
+    min-width: 100px;
+    min-height: 100px;
+}
+#nvd3chart_3 svg {
+    height: 450px;
+    min-width: 100px;
+    min-height: 100px;
+}
+#nvd3chart_4 svg {
+    height: 450px;
+    min-width: 100px;
+    min-height: 100px;
 }
 
 </style>
@@ -35,13 +45,13 @@ svg {
 <script type="text/javascript" src="../../vendor/underscore/1.1.6/underscore.js"></script>
 <script type="text/javascript" src="../../vendor/backbone/0.5.1/backbone.js"></script>
 <script type="text/javascript" src="../../vendor/mustache/0.5.0-dev/mustache.js"></script>
-<script type="text/javascript" src="../../vendor/bootstrap/2.0.2/bootstrap.js"></script>
+<script type="text/javascript" src="../../vendor/bootstrap/2.1.1/js/bootstrap.js"></script>
 <script type="text/javascript" src="../../dist/recline.js"></script>
 
 <!-- javascript recline custom -->
 <script type="text/javascript" src="../../vendor/flotr2/flotr2.js"></script>
-<script type="text/javascript" src="../../src/view.nvd3.linegraph.js"></script>
-<script type="text/javascript" src="../../src/view.nvd3.stackedarea.js"></script>
+<script type="text/javascript" src="../../src/view.nvd3.graph.js"></script>
+
 
 <!-- nvd3 -->
 <script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
@@ -58,8 +68,24 @@ svg {
 
 <body>
 
-<div id="mygraph"></div>
-<div id="mygraph2"></div>
+<div class="container-fluid">
+<div class="row-fluid">
+    <div class="span1"><div id="search_container"></div></div>
+    <div class="span5"><div id="mygraph"></div></div>
+    <div class="span5"><div id="mygraph2"></div></div>
+</div>
+<div class="row-fluid">
+    <div class="span1"></div>
+    <div class="span5"><div id="mygraph3"></div></div>
+    <div class="span5"><div id="mygraph4"></div></div>
+</div>
+    <div class="row-fluid">
+        <div class="span1"></div>
+        <div class="span5"><div id="flotr"></div></div>
+        <div class="span5"><div id="grid"></div></div>
+    </div>
+</div>
+
 
 <script>
 
@@ -78,12 +104,14 @@ var dataset = new recline.Model.Dataset({
 
 
 var $el = $('#mygraph');
-var graph = new recline.View.NVD3LineGraph({
+var graph = new recline.View.NVD3Graph({
   model: dataset,
   state: {
     group: "x",
     series: ["y", "z"],
-    colors: ["#cb4b4b", "#4da74d", "#9440ed"]
+    colors: ["#cb4b4b", "#4da74d", "#9440ed"],
+    graphType: "stackedAreaChart",
+    id: "1"
   }
 });
 $el.append(graph.el);
@@ -92,7 +120,53 @@ graph.redraw();
 
 
 var $el2 = $('#mygraph2');
-var graph2 = new recline.View.NVD3StackedArea({
+var graph2 = new recline.View.NVD3Graph({
+    model: dataset,
+    state: {
+        group: "x",
+        series: ["y", "z"],
+        colors: ["#cb4b4b", "#4da74d", "#9440ed"],
+        graphType: "lineChart",
+        id: "2"
+    }
+});
+$el2.append(graph2.el);
+graph2.render();
+graph2.redraw();
+
+var $el3 = $('#mygraph3');
+var graph3 = new recline.View.NVD3Graph({
+    model: dataset,
+    state: {
+        group: "x",
+        series: ["y", "z"],
+        colors: ["#cb4b4b", "#4da74d", "#9440ed"],
+        graphType: "discreteBarChart",
+        id: "3"
+    }
+});
+$el3.append(graph3.el);
+graph3.render();
+graph3.redraw();
+
+var $el4 = $('#mygraph4');
+var graph4 = new recline.View.NVD3Graph({
+    model: dataset,
+    state: {
+        group: "x",
+        series: ["y", "z"],
+        colors: ["#cb4b4b", "#4da74d", "#9440ed"],
+        graphType: "multiBarChart",
+        id: "4"
+    }
+});
+$el4.append(graph4.el);
+graph4.render();
+graph4.redraw();
+
+
+var $el5 = $('#flotr');
+var graph5 = new recline.View.Graph({
     model: dataset,
     state: {
         group: "x",
@@ -100,9 +174,31 @@ var graph2 = new recline.View.NVD3StackedArea({
         colors: ["#cb4b4b", "#4da74d", "#9440ed"]
     }
 });
-$el2.append(graph2.el);
-graph2.render();
-graph2.redraw();
+$el5.append(graph5.el);
+graph5.render();
+graph5.redraw();
+
+var $el6 = $('#grid');
+var graph6 = new recline.View.Grid({
+    model: dataset,
+    state: {
+        group: "x",
+        series: ["y", "z"],
+        colors: ["#cb4b4b", "#4da74d", "#9440ed"]
+    }
+});
+$el6.append(graph6.el);
+graph6.render();
+graph6.redraw();
+
+var filter = new recline.View.FilterEditor({
+    model: dataset,
+    id: 'filterEditor',
+    label: 'Filters'
+});
+var $el9 = $('#search_container');
+$el9.append(filter.el);
+
 
 </script>
 

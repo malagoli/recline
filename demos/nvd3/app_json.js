@@ -28,10 +28,10 @@ jQuery(function($) {
     dataset = new recline.Model.Dataset(datasetInfo);
   } else {
       var dataset = new recline.Model.Dataset({
-          url: 'http://jsonpdataproxy.appspot.com/?type=csv&url=http://www.inps.it/docallegati//Mig/OpenData/5XQCOZM5.csv',
+          url: 'http://localhost/test.json',
           // optional rows parameter specifies how many rows to retrieve - default is a 1000
           // rows: 5000
-          backend: 'jsonp'
+          backend: 'json'
       });
 
       //passare fields e data
