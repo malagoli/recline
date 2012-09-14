@@ -19,25 +19,31 @@ svg {
 }
 
 #nvd3chart_1 svg {
-  height: 450px;
+  height: 300px;
   min-width: 100px;
   min-height: 100px;
 }
 #nvd3chart_2 svg {
-    height: 450px;
+    height: 300px;
     min-width: 100px;
     min-height: 100px;
 }
 #nvd3chart_3 svg {
-    height: 450px;
+    height: 300px;
     min-width: 100px;
     min-height: 100px;
 }
 #nvd3chart_4 svg {
-    height: 450px;
+    height: 300px;
     min-width: 100px;
     min-height: 100px;
 }
+#nvd3chart_5 svg {
+    height: 300px;
+    min-width: 100px;
+    min-height: 100px;
+}
+
 
 </style>
 <!-- 3rd party dependencies -->
@@ -51,10 +57,10 @@ svg {
 <!-- javascript recline custom -->
 <script type="text/javascript" src="../../vendor/flotr2/flotr2.js"></script>
 <script type="text/javascript" src="../../src/view.nvd3.graph.js"></script>
-
+<script type="text/javascript" src="../../src/virtualmodel.js"></script>
 
 <!-- nvd3 -->
-<script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
+<script type="text/javascript" src="../../vendor/d3/v2/d3.v2.min.js"></script>
 
 
 <script src="../../vendor/nvd3/0.0.1/nv.d3.js"></script>
@@ -70,19 +76,21 @@ svg {
 
 <div class="container-fluid">
 <div class="row-fluid">
-    <div class="span1"><div id="search_container"></div></div>
-    <div class="span5"><div id="mygraph"></div></div>
-    <div class="span5"><div id="mygraph2"></div></div>
+    <div class="span2"><div id="search_container"></div></div>
+    <div class="span3"><div id="mygraph"></div></div>
+    <div class="span3"><div id="mygraph2"></div></div>
+    <div class="span3"><div id="mygraph3"></div></div>
 </div>
 <div class="row-fluid">
-    <div class="span1"></div>
-    <div class="span5"><div id="mygraph3"></div></div>
-    <div class="span5"><div id="mygraph4"></div></div>
+    <div class="span2"><div id="facet_container"></div></div>
+    <div class="span3"><div id="grid"></div></div>
+    <div class="span3"><div id="mygraph7"></div></div>
+    <div class="span3"><div id="mygraph4"></div></div>
 </div>
     <div class="row-fluid">
-        <div class="span1"></div>
-        <div class="span5"><div id="flotr"></div></div>
-        <div class="span5"><div id="grid"></div></div>
+        <div class="span2"><div id="search_container2"></div></div>
+        <div class="span3"><div id="flotr" ></div></div>
+        <div class="span3"></div>
     </div>
 </div>
 
@@ -98,12 +106,29 @@ var data = [
   {id: 5, date: '2011-06-02', x: 6, y: 12, z: 18, country: 'DE', geo: {lat:51.04, lon:7.9}}
 ];
 
+
+var data2 = [
+    {id: 10, date: '2011-01-01', x: 1, y: 2, z: 3, country: 'DE' },
+    {id: 11, date: '2011-02-02', x: 2, y: 4, z: 24, country: 'UK'},
+    {id: 12, date: '2011-03-03', x: 3, y: 6, z: 9, country: 'US'},
+    {id: 13, date: '2011-04-04', x: 4, y: 8, z: 6, country: 'UK'},
+    {id: 14, date: '2011-05-04', x: 5, y: 10, z: 15, country: 'UK'},
+    {id: 15, date: '2011-06-02', x: 6, y: 12, z: 18, country: 'DE'}
+];
+
 var dataset = new recline.Model.Dataset({
   records: data
 });
 
+var dataset2 = new recline.Model.Dataset({
+    records: data2
+});
 
-var $el = $('#mygraph');
+var virtualmodel = new recline.VirtualModel.VirtualDataset({
+    datasets: {dataset1: dataset, dataset2: dataset2}
+})
+
+
 var graph = new recline.View.NVD3Graph({
   model: dataset,
   state: {
@@ -114,12 +139,12 @@ var graph = new recline.View.NVD3Graph({
     id: "1"
   }
 });
-$el.append(graph.el);
+$('#mygraph').append(graph.el);
 graph.render();
 graph.redraw();
 
 
-var $el2 = $('#mygraph2');
+
 var graph2 = new recline.View.NVD3Graph({
     model: dataset,
     state: {
@@ -130,26 +155,26 @@ var graph2 = new recline.View.NVD3Graph({
         id: "2"
     }
 });
-$el2.append(graph2.el);
+$('#mygraph2').append(graph2.el);
 graph2.render();
 graph2.redraw();
 
-var $el3 = $('#mygraph3');
+
 var graph3 = new recline.View.NVD3Graph({
     model: dataset,
     state: {
         group: "x",
-        series: ["y", "z"],
+        series: ["z", "y"],
         colors: ["#cb4b4b", "#4da74d", "#9440ed"],
         graphType: "discreteBarChart",
         id: "3"
     }
 });
-$el3.append(graph3.el);
+$('#mygraph3').append(graph3.el);
 graph3.render();
 graph3.redraw();
 
-var $el4 = $('#mygraph4');
+
 var graph4 = new recline.View.NVD3Graph({
     model: dataset,
     state: {
@@ -160,12 +185,26 @@ var graph4 = new recline.View.NVD3Graph({
         id: "4"
     }
 });
-$el4.append(graph4.el);
+$('#mygraph4').append(graph4.el);
 graph4.render();
 graph4.redraw();
 
 
-var $el5 = $('#flotr');
+var graph7 = new recline.View.NVD3Graph({
+    model: dataset,
+    state: {
+        group: "x",
+        series: ["y", "z"],
+        colors: ["#cb4b4b", "#4da74d", "#9440ed"],
+        graphType: "cumulativeLineChart",
+        id: "5"
+    }
+});
+$('#mygraph7').append(graph7.el);
+graph7.render();
+graph7.redraw();
+
+
 var graph5 = new recline.View.Graph({
     model: dataset,
     state: {
@@ -174,11 +213,11 @@ var graph5 = new recline.View.Graph({
         colors: ["#cb4b4b", "#4da74d", "#9440ed"]
     }
 });
-$el5.append(graph5.el);
+$('#flotr').append(graph5.el);
 graph5.render();
 graph5.redraw();
 
-var $el6 = $('#grid');
+
 var graph6 = new recline.View.Grid({
     model: dataset,
     state: {
@@ -187,17 +226,26 @@ var graph6 = new recline.View.Grid({
         colors: ["#cb4b4b", "#4da74d", "#9440ed"]
     }
 });
-$el6.append(graph6.el);
+$('#grid').append(graph6.el);
 graph6.render();
-graph6.redraw();
+
 
 var filter = new recline.View.FilterEditor({
     model: dataset,
     id: 'filterEditor',
     label: 'Filters'
 });
-var $el9 = $('#search_container');
-$el9.append(filter.el);
+$('#search_container').append(filter.el);
+
+
+var filter2 = new recline.View.FilterEditor({
+    model: virtualmodel,
+    id: 'filterEditor',
+    label: 'Filters Virtual Model'
+});
+$('#search_container2').append(filter2.el);
+
+
 
 
 </script>

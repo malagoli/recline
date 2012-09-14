@@ -101,6 +101,7 @@ this.recline.View = this.recline.View || {};
         var seriesNVD3 = this.createSeriesNVD3();
         var graphType = this.state.get("graphType") ;
         var viewId = this.state.get("id");
+        var model = this.model;
 
         nv.addGraph(function() {
 
@@ -115,14 +116,41 @@ this.recline.View = this.recline.View || {};
                     var chart = nv.models.stackedAreaChart()
                         .clipEdge(true);
                     break;
+                case "bulletChart" :
+                    var chart = nv.models.bulletChart();
+
+                    break;
+                case "cumulativeLineChart":
+                    var chart = nv.models.cumulativeLineChart();
+                    break;
                 case "discreteBarChart":
                     var chart = nv.models.discreteBarChart()
                    .staggerLabels(true)
                    .tooltips(false)
-                    .showValues(true) ;
+                   .showValues(true) ;
+
+
+
+                    chart.discretebar.dispatch.on('elementClick', function(e) {
+                        //console.log(e);
+                        var filters = model.queryState.get('filters');
+
+
+                        filters.push({field: "x", fieldType: "string", type: "term", term: e.pointIndex});
+
+                        model.queryState.set({filters: filters});
+                        model.queryState.trigger('change');
+
+
+                    })
+
+
+
+
                     break;
                 case "multiBarChart":
                     var chart = nv.models.multiBarChart();
+
                     break;
        }
 
@@ -142,6 +170,9 @@ this.recline.View = this.recline.View || {};
 
   		chart.yAxis
       		.tickFormat(d3.format(',.2f'));
+
+
+
 
   		d3.select('#nvd3chart_' +viewId + '  svg')
       		.datum(seriesNVD3)
@@ -267,7 +298,6 @@ my.GraphControls = Backbone.View.extend({
     var tmplData = this.model.toTemplateJSON();
 
     tmplData["viewId"]  =  this.state.get("id");;
-    console.log(tmplData);
 
 
     var htmls = Mustache.render(this.template, tmplData);
